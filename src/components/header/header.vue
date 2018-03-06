@@ -18,19 +18,38 @@
                     <span class='text' >{{seller.supports[0].description}}</span>
                 </div>
             </div>
-            <div v-if='seller.supports' classs='support-count' >
+            <div v-if='seller.supports' class='support-border' @click="showDetail()">
                 <span class='count'>{{seller.supports.length}}个</span>
-                <i class='iconfont icon-keyboard_arrow_right'></i>
+                <i class='icon-keyboard_arrow_right'></i>
             </div>
         </div>
-        <div class='bulletin'></div>
-    
+        <div class='bulletin' @click="showDetail()">
+            <span class='bulletin-title'></span>
+            <span class='bulletin-text'>{{seller.bulletin}}</span>
+            <i class='icon-keyboard_arrow_right'></i>
+        </div>
+        <div class='bg' @click="showDetail()">
+            <img width='100%' height='100%' :src="seller.avatar" >
+        </div>
+        <div v-show='detailShow' class='detail'>
+            <div class='detail-wrapper clearfix'>
+                <div class='detail-wrapper'></div>
+            </div>
+            <div class='detail-close'>
+                <i class='icon-close'></i>
+            </div>
+        </div>
     </div>
     
 </template>
 
 <script>
 export default {
+    data(){
+        return{
+            detailShow:false
+        }
+    },
     props:{
         seller:{
            type:Object
@@ -38,7 +57,12 @@ export default {
     },
     // 绑定classMap，对应下标获取相应class名
     created(){
-        this.classMap=['decrease','discount','special','invoice','guarantee']
+        this.classMap=['decrease','discount','special','invoice','guarantee'];
+    },
+    methods:{
+        showDetail(){
+            this.detailShow = true;
+        }
     }
 }
 </script>
@@ -46,11 +70,13 @@ export default {
 <style lang='stylus' rel='stylesheet/stylus'>
 @import "../../common/stylus/mixin.styl";
 .header
+    position :relative
     color :#ffffff
-    background :#999
-    font-size :0;
+    overflow :hidden
+    background:rgba(7,17,27,0.2)
     .content-wrapper
-        position: relative
+        position :relative
+        font-size :0
         padding :24px 12px 18px 18px
         .avatar
             display :inline-block
@@ -101,7 +127,7 @@ export default {
                 .text
                     font-size :10px
                     line-height :10px  
-        .support-count
+        .support-border
             position: absolute
             right: 12px
             bottom: 14px
@@ -117,7 +143,63 @@ export default {
             .icon-keyboard_arrow_right
                 margin-left: 2px
                 line-height: 24px
-                font-size: 10px
+                font-size: 16px
+    .bulletin
+        position :relative
+        height :28px
+        line-height :28px
+        padding :0 22px 0 12px
+        white-space :nowrap
+        overflow :hidden
+        text-overflow :ellipsis
+        background :rgba(7,17,27,0.2)
+        .bulletin-title
+            display :inline-block
+            vertical-align :top
+            margin-top :10px
+            width :22px
+            height :12px
+            bg-image :('../../../static/images/bulletin')
+            background-size :cover
+            background-repeat :no-repeat
+        .bulletin-text
+            font-size :10px
+            margin: 0 4px
+        .icon-keyboard_arrow_right
+            position :absolute
+            font-size :10px
+            right :12px
+            top : 10px
+
+    .bg
+        position :absolute
+        left :0
+        top :0
+        width :100%
+        height :100%
+        z-index:-1
+        filter:blur(10px)
+    .detail
+        position :fixed
+        z-index :100
+        top :0
+        left :0
+        width :100%
+        height :100%
+        overflow :auto
+        background :rgba(7,17,27,0.8)
+        .detail-wrapper
+            min-height :100%  
+            .detail-main
+                margin-top :64px
+                padding-bottom :64px 
+        .detail-close
+            position :relative
+            width :32px
+            height :32px
+            margin:-64px auto;
+            font-size :32px
+            clear :both
 
 </style>
 
