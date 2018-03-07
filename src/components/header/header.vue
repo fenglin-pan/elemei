@@ -43,15 +43,23 @@
                         <div class='text'>优惠信息</div>
                         <div class='line'></div>
                     </div>
-                    <ul v-if='seller.supports'>
+                    <ul v-if='seller.supports' class="supports">
                         <li v-for="(item,index) in seller.supports" class='support-item'>
                             <span class='icon' :class='classMap[seller.supports[index].type]'></span>
                             <div class='text'>{{seller.supports[index].description}}</div>
                         </li>
                     </ul>
+                    <div class="title">
+                        <div class='line'></div>
+                        <div class='text'>商家公告</div>
+                        <div class='line'></div>
+                    </div>
+                    <div class='bulletin-detail'>
+                        <div class='content'>{{seller.bulletin}}</div>
+                    </div>
                 </div>
             </div>
-            <div class='detail-close'>
+            <div class='detail-close' @click="closeShow()">
                 <i class='icon-close'></i>
             </div>
         </div>
@@ -82,6 +90,9 @@ export default {
     methods:{
         showDetail(){
             this.detailShow = true;
+        },
+        closeShow(){
+            this.detailShow = false;
         }
     }
 }
@@ -236,6 +247,44 @@ export default {
                         padding : 0 12px
                         font-size :14px
                         font-weight :700
+                .supports
+                    width:80%
+                    margin :0 auto
+                    .support-item    
+                        padding :0 12px
+                        margin-bottom : 12px
+                        font-size :0
+                        &:last-child
+                            margin-bottom :0
+                        .icon
+                            display :inline-block
+                            float :left
+                            width :16px
+                            height 16px
+                            vertical-align :top
+                            margin-right :6px
+                            background-size :cover
+                            background-repeat :no-repeat
+                            &.decrease
+                                bg-image("../../../static/images/decrease_2")    
+                            &.discount
+                                bg-image("../../../static/images/discount_2")                    
+                            &.invoice
+                                bg-image("../../../static/images/invoice_2")    
+                            &.guarantee
+                                bg-image("../../../static/images/guarantee_2")    
+                            &.special 
+                                bg-image("../../../static/images/special_2")
+                        .text
+                            font-size :12px
+                            line-height :16px
+                .bulletin-detail
+                    width :80%  
+                    margin :0 auto 
+                    .content
+                        padding:0 12px
+                        line-height : 24px
+                        font-size :12px
         .detail-close
             position :relative
             width :32px
