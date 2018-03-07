@@ -33,7 +33,23 @@
         </div>
         <div v-show='detailShow' class='detail'>
             <div class='detail-wrapper clearfix'>
-                <div class='detail-wrapper'></div>
+                <div class='detail-main'>
+                    <h1 class='name'>{{seller.name}}</h1>
+                    <div class="star-wrapper">
+                        <star :size='48' :score='seller.score' ></star>
+                    </div>
+                    <div class="title">
+                        <div class='line'></div>
+                        <div class='text'>优惠信息</div>
+                        <div class='line'></div>
+                    </div>
+                    <ul v-if='seller.supports'>
+                        <li v-for="(item,index) in seller.supports" class='support-item'>
+                            <span class='icon' :class='classMap[seller.supports[index].type]'></span>
+                            <div class='text'>{{seller.supports[index].description}}</div>
+                        </li>
+                    </ul>
+                </div>
             </div>
             <div class='detail-close'>
                 <i class='icon-close'></i>
@@ -44,6 +60,7 @@
 </template>
 
 <script>
+import star from '../../components/star/star'
 export default {
     data(){
         return{
@@ -59,6 +76,9 @@ export default {
     created(){
         this.classMap=['decrease','discount','special','invoice','guarantee'];
     },
+    components:{
+        star
+    },
     methods:{
         showDetail(){
             this.detailShow = true;
@@ -70,7 +90,7 @@ export default {
 <style lang='stylus' rel='stylesheet/stylus'>
 @import "../../common/stylus/mixin.styl";
 .header
-    position :relative
+    position :relative 
     color :#ffffff
     overflow :hidden
     background:rgba(7,17,27,0.2)
@@ -189,10 +209,33 @@ export default {
         overflow :auto
         background :rgba(7,17,27,0.8)
         .detail-wrapper
+            width:100%
             min-height :100%  
             .detail-main
                 margin-top :64px
-                padding-bottom :64px 
+                padding-bottom :64px
+                .name
+                    font-size :16px
+                    line-height :16px
+                    text-align :center
+                    font-weight :700
+                .star-wrapper
+                    margin-top :18px
+                    padding:2px 0
+                    text-align:center
+                .title
+                    display :flex
+                    width :80%
+                    margin :28px auto 24px auto
+                    .line
+                        flex: 1
+                        position  :relative
+                        top:-6px
+                        border-bottom :1px solid rgba(255,255,255,0.2)
+                    .text
+                        padding : 0 12px
+                        font-size :14px
+                        font-weight :700
         .detail-close
             position :relative
             width :32px
@@ -200,6 +243,5 @@ export default {
             margin:-64px auto;
             font-size :32px
             clear :both
-
 </style>
 
