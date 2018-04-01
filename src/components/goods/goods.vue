@@ -2,7 +2,7 @@
   <div class='goods'>
     <div class='menu-wrapper' ref="menuWrapper">
       <ul>
-        <li v-for="(item,index) in goods"  class='menu-item' :class="{'current':currentIndex===index}" @click="selectMenu(index,$event)" ref="menuList" >
+        <li v-for="(item,index) in goods"  class='menu-item' :class="index == currentIndex?'current':'menu-item'" @click="selectMenu(index,$event)" ref="menuList" >
           <span class='text border-1px' >
             <span v-show='item.type>0'class="icon" :class='classMap[item.type]'></span>{{item.name}}</span>
         </li>
@@ -59,14 +59,15 @@ export default {
   computed:{
     currentIndex() {
         for (let i = 0; i < this.listHeight.length; i++) {
-          let height1 = this.listHeight[i];
-          let height2 = this.listHeight[i + 1];
-          if (!height2 || (this.scrollY >= height1 && this.scrollY < height2)) {
+          let height1 = this.listHeight[i];//获取高度
+          let height2 = this.listHeight[i + 1];//下一个高度；即height1、2为区间的上下范围
+          if (!height2 || (this.scrollY >= height1 && this.scrollY < height2)) {//落在区间或者在最后一个，返回当前的索引
             this._followScroll(i);
             return i;
           }
         }
         return 0;
+        console.log(currentIndex)
       }
   },
   created(){
@@ -75,6 +76,7 @@ export default {
       .then(response =>{
         this.goods = response.data.goods;
         this.$nextTick(() => {
+          //因为在mouted这个时候，wrapper 的 DOM 已经渲染了，我们可以正确计算它以及它内层 content 的高度，以确保滚动正常。
             this._initScroll();
             this._calculateHeight();
           });
@@ -82,12 +84,15 @@ export default {
   },
   methods:{
     selectMenu(index, event) {
-        if (!event._constructed) {
+        if (!event._constructed) {//防止pc端点击出现两次的情况
           return;
         }
-        let foodList = this.$refs.foodList;
-        let el = foodList[index];
-        this.foodsScroll.scrollToElement(el, 300);
+        var foodList = this.$refs.foodList;
+        // var el = this.listHeight[index];
+        // this.foodsScroll.scrollToElement(this.listHeight[index], 300);
+        this.foodsScroll.scrollTo(0,-this.listHeight[index],300)
+        console.log("实际指向",this.currentIndex)
+        console.log('点击的索引',index)
       },
     _initScroll() {
         this.meunScroll = new BScroll(this.$refs.menuWrapper, {
@@ -95,7 +100,7 @@ export default {
         });
         this.foodsScroll = new BScroll(this.$refs.foodsWrapper, {
           click: true,
-          probeType: 3
+          probeType: 3//实时监测位置
         });
         this.foodsScroll.on('scroll', (pos) => {
           // 判断滑动方向，避免下拉时分类高亮错误（如第一分类商品数量为1时，下拉使得第二分类高亮）
