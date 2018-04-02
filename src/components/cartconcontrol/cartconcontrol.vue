@@ -5,7 +5,6 @@
                 <span class='icon-remove_circle_outline inner'></span>
             </div>
         </transition>
-        
         <div class='count' v-show="food.count>0">
         {{food.count}}
         </div>
