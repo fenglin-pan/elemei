@@ -28,6 +28,9 @@
                   <span class='now'>￥{{food.price}}</span>
                   <span v-show='food.oldPrice' class='old'>￥{{food.oldPrice}}</span>
                 </div>
+                <div class='cartconcontrol-wrapper'>
+                  <cartconcontrol :food='food'></cartconcontrol>
+                </div>
               </div>
               
             </li>
@@ -35,13 +38,14 @@
         </li>
       </ul>
     </div>
-    <shopcart></shopcart>
+    <shopcart :select-foods='selectFoods'></shopcart>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 import shopcart from '../shopcart/shopcart'
+import cartconcontrol from '../cartconcontrol/cartconcontrol'
 import BScroll from 'better-scroll'
 export default {
   props:{
@@ -68,6 +72,17 @@ export default {
         }
         return 0;
         console.log(currentIndex)
+      },
+      selectFoods(){
+        let foods = [];
+        this.goods.forEach((good)=>{
+          good.foods.forEach((food)=>{
+            if(food.count){
+              foods.push(food)
+            }
+          })
+        })
+        return foods;
       }
   },
   created(){
@@ -126,7 +141,8 @@ export default {
       }
   },
   components:{
-    shopcart
+    shopcart,
+    cartconcontrol
   }
   }
 </script>
@@ -233,5 +249,9 @@ export default {
             text-decoration :line-through
             font-size :10px
             color:rgb(240,20,20)
+        .cartconcontrol-wrapper
+          position :absolute
+          right :0
+          bottom :12px
 
 </style>

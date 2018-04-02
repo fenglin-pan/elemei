@@ -12,7 +12,7 @@
                 <div class='desc'>另需配送费{{deliveryPrice}}元</div>
             </div>
             <div class='content-right'>
-                <div class='pay' :class="">
+                <div class='pay' :class="payClass">
                     {{payDesc}}
                 </div>
             </div>
@@ -74,7 +74,9 @@ export default {
             }
         },
         payClass(){
-
+            if(this.totalPrice>=this.minPrice){
+                return 'payHighLight'
+            }
         }
     }
 }
