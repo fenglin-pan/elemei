@@ -38,7 +38,9 @@
         </li>
       </ul>
     </div>
-    <shopcart :select-foods='selectFoods'></shopcart>
+    <div class="shopcart">
+      <shopcart :select-foods='selectFoods'></shopcart>
+    </div>
   </div>
 </template>
 

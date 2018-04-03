@@ -1,14 +1,14 @@
 <template>
     <div class='cartconcontrol'>
         <transition name='fadeAdd'>
-            <div class='decrease ' v-show="food.count>0" @click='decreaseClick'>
+            <div class='decrease ' v-show="food.count>0" @click.stop.prevent='decreaseClick'>
                 <span class='icon-remove_circle_outline inner'></span>
             </div>
         </transition>
         <div class='count' v-show="food.count>0">
         {{food.count}}
         </div>
-        <div class='add icon-add_circle' @click='foodClick'>
+        <div class='add icon-add_circle' @click.stop.prevent='foodClick'>
         </div>
     </div>
 </template>
