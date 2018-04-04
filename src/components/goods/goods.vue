@@ -13,7 +13,7 @@
         <li v-for='item in goods' ref='foodList'>
           <h1 class='title'>{{item.name}}</h1>
           <ul>
-            <li v-for="food in item.foods" class='food-item food-list-hook'>
+            <li @click="selectFood(food,$event)" v-for="food in item.foods" class='food-item food-list-hook'>
               <div class='icon' >
                 <img :src="food.icon" alt="">
               </div>
@@ -41,12 +41,14 @@
     <div class="shopcart">
       <shopcart :select-foods='selectFoods'></shopcart>
     </div>
+    <food :food='selectedFood' ref='food'></food> 
   </div>
 </template>
 
 <script>
 import axios from 'axios'
 import shopcart from '../shopcart/shopcart'
+import food from '../food/food'
 import cartconcontrol from '../cartconcontrol/cartconcontrol'
 import BScroll from 'better-scroll'
 export default {
@@ -59,7 +61,8 @@ export default {
     return {
       goods:[],
       listHeight:[],
-      scrollY:0
+      scrollY:0,
+      selectedFood:{}
     }
   },
   computed:{
@@ -140,11 +143,19 @@ export default {
         let menuList = this.$refs.menuList;
         let el = menuList[index];
         this.meunScroll.scrollToElement(el, 300, 0, -100);
+      },
+      selectFood(food,event){//与food组件交互 
+        if(!event._constructed){
+          return 
+        }
+        this.selectedFood = food;
+        this.$refs.food.show()//调用子组件food的show方法
       }
   },
   components:{
     shopcart,
-    cartconcontrol
+    cartconcontrol,
+    food
   }
   }
 </script>
@@ -250,7 +261,7 @@ export default {
           .old
             text-decoration :line-through
             font-size :10px
-            color:rgb(240,20,20)
+            color:rgb(147,153,159)
         .cartconcontrol-wrapper
           position :absolute
           right :0

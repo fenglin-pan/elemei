@@ -115,8 +115,7 @@ export default {
                 this.$nextTick(()=>{
                     //初始化列表
                     if(!this.scroll){
-                        var shopList = this.$refs.shopList;
-                        this.scroll = new BScroll(shopList,{
+                        this.scroll = new BScroll(this.$refs.shopList,{
                             click:true
                         });
                     }else{
