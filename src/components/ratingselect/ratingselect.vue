@@ -1,11 +1,11 @@
 <template>
     <div class='ratingselect'>
         <div class='rating-type border-1px'>
-            <span class='block positive':class="{'active':selectType===2}">{{desc.all}}<span>47</span></span>
-            <span class='block positive':class="{'active':selectType===0}">{{desc.positive}}<span>47</span></span>
-            <span class='block negative':class="{'active':selectType===1}">{{desc.negative}}<span>47</span> </span>
+            <span class='block positive':class="{'active':selectType===2}" @click='select(2,$event)'>{{desc.all}}<span>{{ratings.length}}</span></span>
+            <span class='block positive':class="{'active':selectType===0}" @click='select(0,$event)'>{{desc.positive}}<span>{{positive.length}}</span></span>
+            <span class='block negative':class="{'active':selectType===1}" @click='select(1,$event)'>{{desc.negative}}<span>{{negative.lenght}}</span> </span>
         </div>
-        <div class="switch" :class="{'on':onlyContent===true}">
+        <div class="switch" :class="{'on':onlyContent}" @click='toggle($event)'>
             <span class='icon-check_circle'></span>
             <span class="title">只看内容的评价</span>
         </div>
@@ -41,6 +41,29 @@ export default {
                     negative:'不满意'
                 }
             }
+        }
+    },
+    computed:{
+        positive:function(){
+            return this.ratings.filter((ratings)=> ratings.rateType===POSITIVE)
+        },
+        negative:function(){
+            return this.ratings.filter((ratings)=> ratings.rateType===NEGATIVE)
+        }
+    },
+    methods:{
+        select(type,event){
+            if(!event._constructed){
+                return;
+            }
+            this.$emit("select",type);//子组件向父组件传递参数
+
+        },
+        toggle(event){
+            if(!event._constructed){
+                return;
+            }
+            this.$emit("toggle")
         }
     }
 }
@@ -85,12 +108,12 @@ export default {
             color :#00c850
     .icon-check_circle
         display :inline-block
-        vertical-align :top
+        vertical-align :middle
         margin-right :4px
-        font-size :24px
-    .text
+        font-size :20px
+    .title
         display :inline-block
         font-size :12px
-        vertical-align :top
+        vertical-align :middle
                 
 </style>

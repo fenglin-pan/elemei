@@ -31,7 +31,7 @@
             <split></split>
             <div class='comment'>
                 <h1 class='title'>商品评价</h1>
-                <ratingselect :ratings='food.ratings':select-type = 'selectType':only-content='onlyContent':desc='desc'></ratingselect>
+                <ratingselect :ratings='food.ratings':select-type = 'selectType':only-content='onlyContent':desc='desc' @select='select' @toggle='toggle'></ratingselect>
             </div>
         </div>
     </div>
@@ -91,6 +91,18 @@ export default {
                 return
             }
             Vue.set(this.food,'count',1);
+        },
+        select(type){
+            this.selectType = type;
+            this.$nextTick(()=>{
+                this.scroll.refresh()
+            })
+        },
+        toggle(){
+            this.onlyContent = !this.onlyContent;
+            this.$nextTick(()=>{
+                this.scroll.refresh()
+            })
         }
     },
     components:{
