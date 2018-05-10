@@ -13,7 +13,10 @@
       </div>
       
     </div>
-      <router-view :seller="seller"></router-view>
+    <!-- 组件切换，状态保存 -->
+    <keep-alive>
+      <router-view :seller="seller"></router-view>      
+    </keep-alive>
   </div>
 </template>
 
