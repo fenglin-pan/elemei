@@ -83,7 +83,7 @@ export default {
     },
     methods:{
         //为组件私有的方法，命名方式为_+'name'
-        //父组件可调用子组件的方法  反正不可以
+        //父组件可调用子组件的方法  反则不可以
         show(){
             this.showFlag = true;
             this.selectType = ALL;
